@@ -12,14 +12,14 @@ for feature in countries_geo["features"]:
 
 
 def energy_predictions_viz(year: int):
-    energy_predictions_df = get_energy_predictions_by_year(year)
+    energy_predictions_df = get_energy_predictions_df(year)
     fig = px.choropleth(energy_predictions_df,
                         locations='id',
                         geojson=continents_geo,
                         color="ej_value",
                         scope="world",
-                        color_continuous_scale=["#ffffff", "#fff5cc", "#ffeb99", "#ffd700", "#b8860b"],
-                        title=f"Energy Security Predictions of {year}",
+                        color_continuous_scale="Electric",
+                        title=f"Energy Security Predictions of {energy_prediction_years[-1]}",
                         range_color=(0, 100),
                         hover_name="id"
                         )
@@ -38,23 +38,22 @@ def energy_predictions_viz(year: int):
 
 
 
-def food_security_viz(year: int):
-    food_df = get_food_insecurity_by_year(year)
-    million = 1_000_000
+def food_security_viz(year: int, indicator: str = "Prevalence of Severe Food Insecurity (%)"):
+    food_df = get_food_insecurity_df(year, indicator)
     fig = px.choropleth(food_df,
                         locations='id',
                         geojson=countries_geo,
                         color="value",
                         scope="world",
-                        color_continuous_scale=["#ffffff", "#ffe5e5", "#ff9999", "#ff4d4d", "#800000"],
-                        title=f"Food Security of {year}",
+                        color_continuous_scale="YlOrRd",
+                        title=f"Food Security of {food_security_years[-1]}",
                         hover_name="country",
-                        range_color=(0, 2 * million)
+                        range_color=(0, 40)
                         )
 
     fig.update_layout(
         coloraxis_colorbar=dict(
-            title="Number of Calories Needed to Feed the Hungry",  # Custom title for the color bar
+            title="Percent of households experiencing serve food insecurity",  # Custom title for the color bar
             title_side="top",  # Position of the title (default is 'right')
         ),
         paper_bgcolor="white",  # Set background outside the map
@@ -63,14 +62,14 @@ def food_security_viz(year: int):
     return fig
 
 def water_security_viz(year: int):
-    water_df = get_water_security(year)
+    water_df = get_water_security_df(year)
     fig = px.choropleth(water_df,
                         locations='id',
                         geojson=countries_geo,
                         color="water_per_capita",
                         scope="world",
-                        color_continuous_scale=["#ffffff", "#d6eaff", "#88cfff", "#1f77b4", "#08306b"],
-                        title=f"Water Security of {year}",
+                        color_continuous_scale="blues",
+                        title=f"Water Security of {water_security_years[-1]}",
                         range_color=(0, 100000),
                         hover_name="country"
                         )
