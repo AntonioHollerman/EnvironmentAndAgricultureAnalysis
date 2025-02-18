@@ -1,9 +1,10 @@
-import dash
-from dash import dcc, html
+from dash import dcc, html, callback, Dash, Input, Output
 import dash_bootstrap_components as dbc
 
+from Application.HelperClass import data_range
+
 # Initialize Dash app with Bootstrap styling
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # Layout
 app.layout = dbc.Container([
@@ -16,7 +17,7 @@ app.layout = dbc.Container([
         # Ranking of Countries (25% width, scrollable)
         dbc.Col(
             dbc.Card([
-                dbc.CardHeader("Ranking of Countries"),
+                dbc.CardHeader("Ranking of Regions"),
                 dbc.CardBody([
                     html.Ul(id="ranking-list", style={"maxHeight": "400px", "overflowY": "scroll"})
                 ])
@@ -60,11 +61,9 @@ app.layout = dbc.Container([
                     html.Label("Select Year:", className="fw-bold"),
                     dcc.Slider(
                         id="year-slider",
-                        min=2015,
-                        max=2025,
                         step=None,  # Restrict to specific marks
-                        value=2020,  # Default year
-                        marks={year: str(year) for year in [2015, 2020, 2025]}
+                        value=data_range["water"][0],  # Default year
+                        marks={year: str(year) for year in data_range["water"]}
                     )
                 ])
             ]),
@@ -73,6 +72,31 @@ app.layout = dbc.Container([
     ], className="mt-3")
 
 ], fluid=True)  # Full width layout
+
+
+def update_viz():
+    pass
+
+
+def update_ranks():
+    pass
+
+
+@callback(
+    [Output(component_id="year-slider", component_property="value"),
+     Output(component_id="year-slider", component_property="marks")],
+    Input(component_id="map-selection", component_property="value")
+)
+def update_years(map_selected: str):
+    years = {year: str(year) for year in data_range[map_selected]}
+    year = data_range[map_selected][0]
+    return year, years
+
+
+def update_text():
+    pass
+
+
 
 # Run app
 if __name__ == "__main__":

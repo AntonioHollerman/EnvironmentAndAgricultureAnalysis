@@ -1,6 +1,5 @@
 from Visualizations import *
 
-
 data_desc = {
     "water": "The data presented was gathered from \"World Bank Group\". The metrics used to describe water security is "
              "\"Water Per Capita\" in cubic meters which is the total fresh renewable water available per person. "
