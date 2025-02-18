@@ -60,11 +60,11 @@ app.layout = dbc.Container([
                     html.Label("Select Year:", className="fw-bold"),
                     dcc.Slider(
                         id="year-slider",
-                        min=2000,
+                        min=2015,
                         max=2025,
-                        step=1,
+                        step=None,  # Restrict to specific marks
                         value=2020,  # Default year
-                        marks={year: str(year) for year in range(2000, 2026, 5)}
+                        marks={year: str(year) for year in [2015, 2020, 2025]}
                     )
                 ])
             ]),
