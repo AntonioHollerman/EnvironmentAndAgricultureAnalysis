@@ -17,6 +17,7 @@ Nase: EarthData Search
     files: sdgi-7-1-1-access-electricity-2023-national.csv, sdgi-7-1-1-access-electricity-2023-subnational.csv
 
 IEA, SDG7 Database, IEA, Paris
+    populates: "energy_security_predictions" table
     Accessed January 20, 2025. https://www.iea.org/data-and-statistics/data-product/sdg7-database, Licence: CC BY 4.0
     files: WEO2024_AnnexA_Free_Dataset_Regions.csv, WEO2024_AnnexA_Free_Dataset_World.csv
 
