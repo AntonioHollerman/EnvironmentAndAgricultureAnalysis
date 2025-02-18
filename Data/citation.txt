@@ -8,7 +8,7 @@ The World Bank
     World Food Security Outlook: populates "food_insecurity" table
     Renewable internal freshwater resources per capita (cubic meters): Populates "water_security" table
     Accessed January 20, 2025. https://microdata.worldbank.org/index.php/catalog/6103/get-microdata,
-    https://wbwaterdata.org/dataset/water-security-dashboard
+    https://data.worldbank.org/indicator/ER.H2O.INTR.PC
     files: Files found in "FoodSecurity" folder, water-data.csv
 
 Nase: EarthData Search

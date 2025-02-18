@@ -53,7 +53,7 @@ def food_security_viz(year: int, indicator: str = "Prevalence of Severe Food Ins
 
     fig.update_layout(
         coloraxis_colorbar=dict(
-            title="Percent of households experiencing serve food insecurity",  # Custom title for the color bar
+            title="Percent experiencing food insecurity",  # Custom title for the color bar
             title_side="top",  # Position of the title (default is 'right')
         ),
         paper_bgcolor="white",  # Set background outside the map

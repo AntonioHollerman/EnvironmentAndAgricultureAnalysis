@@ -72,7 +72,7 @@ iso3_dict = {
     "Netherlands": "NLD", "New Zealand": "NZL", "Nicaragua": "NIC", "Niger": "NER", "Nigeria": "NGA",
     "Norway": "NOR", "Oman": "OMN", "Pakistan": "PAK", "Panama": "PAN", "Papua New Guinea": "PNG",
     "Paraguay": "PRY", "Peru": "PER", "Philippines": "PHL", "Poland": "POL", "Portugal": "PRT",
-    "Puerto Rico": "PRI", "Qatar": "QAT", "Romania": "ROU", "Russian Federation": "RUS", "Russia": "RUS", "Rwanda": "RWA",
+    "Puerto Rico": "PRI", "Qatar": "QAT", "Romania": "ROU", "Russian Federation": "RUS", "Rwanda": "RWA",
     "Sao Tome and Principe": "STP", "Saudi Arabia": "SAU", "Senegal": "SEN", "Serbia": "SRB", "Sierra Leone": "SLE",
     "Singapore": "SGP", "Slovak Republic": "SVK", "Slovenia": "SVN", "Solomon Islands": "SLB", "South Africa": "ZAF",
     "Spain": "ESP", "Sri Lanka": "LKA", "St. Kitts and Nevis": "KNA", "St. Lucia": "LCA", "St. Vincent and the Grenadines": "VCT",
