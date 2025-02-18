@@ -1,19 +1,15 @@
-GitHub (Author: rapomon)
-    Continents GeoJson File: Used in creating visualizations of the world by continents
-    Accessed January 20, 2025. https://github.com/rapomon/geojson-places
-    files: continents.json
-
-GitHub (Author: datasets)
+GitHub (Author: datasets, hrbrmstr, Ildar Sagdejev)
     Countries GeoJson File: Used in creating visualizations of the world by countries
-    Accessed January 20, 2025. https://github.com/datasets/geo-countries
-    files: countries.json
+    Accessed January 20, 2025. https://github.com/datasets/geo-countries, https://gist.github.com/hrbrmstr/91ea5cc9474286c72838,
+    https://github.com/codeforgermany/click_that_hood/blob/main/public/data/south-america.geojson
+    files: countries.json, continents.json
 
 The World Bank
     World Food Security Outlook: populates "food_insecurity" table
-    Water Security Dashboard: Populates "water_security" table
+    Renewable internal freshwater resources per capita (cubic meters): Populates "water_security" table
     Accessed January 20, 2025. https://microdata.worldbank.org/index.php/catalog/6103/get-microdata,
     https://wbwaterdata.org/dataset/water-security-dashboard
-    files: Files found in "FoodSecurity" folder, export.csv
+    files: Files found in "FoodSecurity" folder, water-data.csv
 
 Nase: EarthData Search
     SDG Indicator 7.1.1: Access to Electricity, 2023 Release: populates "energy_security" table
