@@ -18,7 +18,9 @@ app.layout = dbc.Container([
             dbc.Card([
                 dbc.CardHeader("Ranking of Regions"),
                 dbc.CardBody([
-                    html.Ul(id="ranking-list", style={"maxHeight": "400px", "overflowY": "scroll"})
+                    html.Ul(id="ranking-list",
+                            style={"maxHeight": "400px", "overflowY": "scroll"},
+                            children=[html.Li(item) for item in get_rank("water", data_range["water"][0])])
                 ])
             ]),
             width=3
@@ -82,8 +84,13 @@ def update_viz(map_selected: str, year: int):
     return get_viz(map_selected, year)
 
 
-def update_ranks():
-    pass
+@app.callback(
+    Output("ranking-list", "children"),
+    [Input(component_id="map-selection", component_property="value"),
+     Input(component_id="year-slider", component_property="value")]
+)
+def update_ranks(map_selected: str, year: int):
+    return [html.Li(item) for item in get_rank(map_selected, year)]
 
 
 @callback(
