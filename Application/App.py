@@ -1,7 +1,6 @@
 from dash import dcc, html, callback, Dash, Input, Output
 import dash_bootstrap_components as dbc
-
-from Application.HelperClass import data_range, data_citation, data_desc
+from HelperClass import *
 
 # Initialize Dash app with Bootstrap styling
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -12,7 +11,7 @@ app.layout = dbc.Container([
     # Row 1: World Map & Ranking of Countries
     dbc.Row([
         # Choropleth Map (75% width)
-        dbc.Col(dcc.Graph(id="choropleth-map"), width=9),
+        dbc.Col(dcc.Graph(id="choropleth-map", figure=get_viz("water", data_range["water"][0])), width=9),
 
         # Ranking of Countries (25% width, scrollable)
         dbc.Col(
@@ -76,8 +75,11 @@ app.layout = dbc.Container([
 ], fluid=True)  # Full width layout
 
 
-def update_viz():
-    pass
+@callback(Output(component_id="choropleth-map", component_property="figure"),
+          [Input(component_id="map-selection", component_property="value"),
+           Input(component_id="year-slider", component_property="value")])
+def update_viz(map_selected: str, year: int):
+    return get_viz(map_selected, year)
 
 
 def update_ranks():
