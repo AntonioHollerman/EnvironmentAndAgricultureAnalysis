@@ -17,12 +17,19 @@ food_security_years = [row[0] for row in global_cur.fetchall()]
 global_cur.execute("SELECT DISTINCT indicator FROM food_insecurity")
 food_security_indicators = [row[0] for row in global_cur.fetchall()]
 
+
+global_cur.close()
+global_conn.close()
+
 def get_2023_energy_security_df() -> pd.DataFrame:
     conn = connect("..\\Data\\EnvironmentData.db")
     cur = conn.cursor()
 
     cur.execute("SELECT iso3c, percent_no_electricity, country FROM energy_security")
     data = [{"id": row[0], "percent_no_electricity": row[1], "country": row[2]} for row in cur.fetchall()]
+
+    conn.close()
+    cur.close()
     return pd.DataFrame(data)
 
 
@@ -34,6 +41,9 @@ def get_energy_predictions_df(year: int) -> pd.DataFrame:
         raise Exception("Invalid year input")
     cur.execute("SELECT continent, ej_value FROM energy_security_predictions WHERE year = ?", (year,))
     data = [{"id": row[0], "ej_value": row[1]} for row in cur.fetchall()]
+
+    conn.close()
+    cur.close()
     return pd.DataFrame(data)
 
 
@@ -46,6 +56,9 @@ def get_food_insecurity_df(year: int, indicator: str = "Prevalence of Severe Foo
     cur.execute("SELECT year, iso3c, country, value FROM food_insecurity WHERE year = ? AND indicator = ?",
                 (year, indicator))
     data = [{"year": row[0], "id": row[1], "country": row[2], "value": row[3]} for row in cur.fetchall()]
+
+    conn.close()
+    cur.close()
     return pd.DataFrame(data)
 
 
@@ -55,6 +68,9 @@ def get_water_security_df(year: int) -> pd.DataFrame:
 
     cur.execute("SELECT iso3c, water_per_capita, country FROM water_security WHERE year = ?", (year,))
     data = [{"id": row[0], "water_per_capita": row[1], "country": row[2]} for row in cur.fetchall()]
+
+    conn.close()
+    cur.close()
     return pd.DataFrame(data)
 
 
