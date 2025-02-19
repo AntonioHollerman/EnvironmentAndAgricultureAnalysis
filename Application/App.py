@@ -1,15 +1,15 @@
-from dash import dcc, html, Dash, Input, Output, dash_table
+from dash import dcc, html, Dash, Input, Output, dash_table  # Import Dash components
+import dash_bootstrap_components as dbc  # Import Bootstrap components for styling
+from HelperClass import *  # Import helper functions and data mappings
 
-import dash_bootstrap_components as dbc
-from HelperClass import *
-
-# Default selections
+# Default selections for the map and year
 default_graph = "water"
 default_year = data_range[default_graph][0]
 
 # Initialize Dash app with Bootstrap styling
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+# Define the layout of the Dash app
 app.layout = dbc.Container([
     # Row 1: User Input (Dropdown & Slider)
     dbc.Row([
@@ -99,14 +99,25 @@ app.layout = dbc.Container([
 ], fluid=True)
 
 
-
 # Callbacks
+
 @app.callback(
     Output("choropleth-map", "figure"),
     [Input("map-selection", "value"), Input("year-slider", "value")]
 )
 def update_viz(map_selected, year):
+    """
+    Updates the choropleth map based on the selected dataset and year.
+
+    Args:
+        map_selected (str): The selected dataset ("water", "food", or "electricity").
+        year (int): The selected year.
+
+    Returns:
+        plotly.graph_objects.Figure: The updated figure for the selected dataset and year.
+    """
     return get_viz(map_selected, year)
+
 
 @app.callback(
     [Output("ranking-table", "columns"),
@@ -114,7 +125,19 @@ def update_viz(map_selected, year):
     [Input("map-selection", "value"), Input("year-slider", "value")]
 )
 def update_ranks(map_selected, year):
-    new_columns=[
+    """
+    Updates the ranking table based on the selected dataset and year.
+
+    Args:
+        map_selected (str): The selected dataset ("water", "food", or "electricity").
+        year (int): The selected year.
+
+    Returns:
+        tuple: A tuple containing:
+            - A list of column dictionaries for the DataTable.
+            - A list of dictionaries containing ranked region data.
+    """
+    new_columns = [
         {"name": map_region[map_selected], "id": "region"},
         {"name": map_value[map_selected], "id": "value"},
     ]
@@ -125,12 +148,25 @@ def update_ranks(map_selected, year):
     # Convert to list of dictionaries (DataTable format)
     return new_columns, [{"region": item.region, "value": item.value_d} for item in rankings]
 
+
 @app.callback(
     [Output("year-slider", "value"), Output("year-slider", "marks")],
     Input("map-selection", "value")
 )
 def update_years(map_selected):
+    """
+    Updates the year slider range when a new dataset is selected.
+
+    Args:
+        map_selected (str): The selected dataset ("water", "food", or "electricity").
+
+    Returns:
+        tuple: A tuple containing:
+            - The default year for the selected dataset.
+            - A dictionary mapping available years to slider labels.
+    """
     year_range = data_range[map_selected]
+
     def display_year(i, _year):
         if i % 5 == 0:
             return str(_year)
@@ -141,14 +177,28 @@ def update_years(map_selected):
         years = {year: display_year(index, year) for index, year in enumerate(year_range)}
     else:
         years = {year: str(year) for year in year_range}
+
     return data_range[map_selected][0], years
+
 
 @app.callback(
     [Output("data-desc", "children"), Output("data-citation", "children")],
     Input("map-selection", "value")
 )
 def update_text(map_selected):
+    """
+    Updates the data description and citation text when a new dataset is selected.
+
+    Args:
+        map_selected (str): The selected dataset ("water", "food", or "electricity").
+
+    Returns:
+        tuple: A tuple containing:
+            - The updated data description.
+            - The updated data citation.
+    """
     return data_desc[map_selected], data_citation[map_selected]
+
 
 # Run app
 if __name__ == "__main__":
