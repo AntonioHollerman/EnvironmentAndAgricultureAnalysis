@@ -1,5 +1,19 @@
 from Visualizations import *
 
+MAX_REGION_LEN = 15
+
+map_value = {
+    "water": "Cubic Meters of Water",
+    "food": "Experiencing Food Insecurity",
+    "electricity": "EJ Output"
+}
+
+map_region = {
+    "water": "Country",
+    "food": "Country",
+    "electricity": "Region"
+}
+
 data_desc = {
     "water": "The data presented was gathered from \"World Bank Group\". The metrics used to describe water security is "
              "\"Water Per Capita\" in cubic meters which is the total fresh renewable water available per person. "
@@ -35,9 +49,10 @@ data_range = {
 }
 
 class RegionRank:
-    def __init__(self, region, value):
+    def __init__(self, region, value, value_d):
         self.region = region
         self.value = value
+        self.value_d = value_d
 
     def __eq__(self, other):
         if isinstance(other, RegionRank):
@@ -80,26 +95,42 @@ def get_rank(graph: str, year: int):
             df = get_water_security_df(year)
 
             for index, row in df.iterrows():
-                regions.append(RegionRank(row["country"], row["water_per_capita"]))
-            return sorted(regions, reverse=True)
+                regions.append(RegionRank(
+                    format_region(row["country"]),
+                    row["water_per_capita"],
+                    str(round(row["water_per_capita"]))
+                ))
+            return sorted(regions)
 
         if graph == "food":
             regions = []
             df = get_food_insecurity_df(year)
 
             for index, row in df.iterrows():
-                regions.append(RegionRank(row["country"], row["value"]))
-            return sorted(regions)
+                regions.append(RegionRank(
+                    format_region(row["country"]),
+                    row["value"],
+                    f"{row['value']:.1f}%"))
+            return sorted(regions, reverse=True)
 
         if graph == "electricity":
             regions = []
             df = get_energy_predictions_df(year)
 
             for index, row in df.iterrows():
-                regions.append(RegionRank(row["id"], row["ej_value"]))
-            return sorted(regions, reverse=True)
+                regions.append(RegionRank(
+                    format_region(row["id"]),
+                    row["ej_value"],
+                    f"{row['ej_value']:.2f}"))
+            return sorted(regions)
 
         return None
     except Exception as e:
         print("Get Rank Failed: " + e.__str__())
         return []
+
+
+def format_region(region):
+    if len(region) > MAX_REGION_LEN:
+        return region[0:MAX_REGION_LEN] + "..."
+    return region

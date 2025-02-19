@@ -1,6 +1,6 @@
-from dash import dcc, html, Dash, Input, Output
+from dash import dcc, html, Dash, Input, Output, dash_table
 import dash_bootstrap_components as dbc
-from HelperClass import get_viz, get_rank, data_range, data_desc, data_citation
+from HelperClass import *
 
 # Default selections
 default_graph = "water"
@@ -50,15 +50,30 @@ app.layout = dbc.Container([
         ),
 
         # Ranking Column (Right Side, only next to the map)
-        # Ranking Column (Right Side, only next to the map)
         dbc.Col(
             dbc.Card([
-                dbc.CardHeader("Ranking of Regions"),
+                dbc.CardHeader("Ranking of Regions", style={"textAlign": "center"}),
                 dbc.CardBody([
-                    html.Ul(id="ranking-list",
-                            style={"maxHeight": "400px",  # Adjust height dynamically
-                                   "overflowY": "auto",  # Enables scrolling
-                                   "margin": "0", "padding": "0"})
+                    dash_table.DataTable(
+                        id="ranking-table",
+                        columns=[
+                            {"name": "Region", "id": "region"},
+                            {"name": "Value", "id": "value"},
+                        ],
+                        style_as_list_view=True,  # Disables vertical lines
+                        style_cell={"textAlign": "left"},  # Aligns text to the left
+                        style_header={
+                            "fontWeight": "bold",
+                            "borderBottom": "2px solid black"  # Emphasize header
+                        },
+                        style_data={
+                            "borderBottom": "1px solid #ddd"  # Only horizontal lines
+                        },
+                        style_table={
+                            "maxHeight": "400px",  # Enables scrolling
+                            "overflowY": "auto"
+                        }
+                    )
                 ], style={"flex": "1", "display": "flex", "flexDirection": "column"})  # Ensures full stretch
             ], style={"height": "100%", "display": "flex", "flexDirection": "column"}),
             width=3,
@@ -92,11 +107,21 @@ def update_viz(map_selected, year):
     return get_viz(map_selected, year)
 
 @app.callback(
-    Output("ranking-list", "children"),
+    [Output("ranking-table", "columns"),
+     Output("ranking-table", "data")],
     [Input("map-selection", "value"), Input("year-slider", "value")]
 )
 def update_ranks(map_selected, year):
-    return [html.Li(f"{item.region}: {item.value}") for item in get_rank(map_selected, year)]
+    new_columns=[
+        {"name": map_region[map_selected], "id": "region"},
+        {"name": map_value[map_selected], "id": "value"},
+    ]
+
+    # Fetch rankings from get_rank() function
+    rankings = get_rank(map_selected, year)
+
+    # Convert to list of dictionaries (DataTable format)
+    return new_columns, [{"region": item.region, "value": item.value_d} for item in rankings]
 
 @app.callback(
     [Output("year-slider", "value"), Output("year-slider", "marks")],

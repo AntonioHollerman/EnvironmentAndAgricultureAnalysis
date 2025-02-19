@@ -18,7 +18,7 @@ def energy_predictions_viz(year: int):
                         geojson=continents_geo,
                         color="ej_value",
                         scope="world",
-                        color_continuous_scale="Electric",
+                        color_continuous_scale="Plasma",
                         title=f"Energy Security Predictions of {year}",
                         range_color=(0, 100),
                         hover_name="id"
