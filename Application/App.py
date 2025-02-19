@@ -1,5 +1,4 @@
 from dash import dcc, html, Dash, Input, Output, dash_table
-from dash.exceptions import PreventUpdate
 
 import dash_bootstrap_components as dbc
 from HelperClass import *
@@ -28,10 +27,10 @@ app.layout = dbc.Container([
                         ],
                         value=default_graph,
                         clearable=False,
-                        style={"width": "auto", "minWidth": "150px", "display": "inline-block"}
+                        style={"width": "auto", "minWidth": "150px", "display": "inline-block", "paddingTop": "10px"}
                     ),
                     html.Br(),
-                    html.Label("Select Year:", className="fw-bold"),
+                    html.Label("Select Year:", className="fw-bold", style={"paddingTop": "10px"}),
                     dcc.Slider(
                         id="year-slider",
                         step=None,
@@ -42,7 +41,7 @@ app.layout = dbc.Container([
             ], style={"height": "100%", "border": "none"}),  # Hide border
             width=12
         )
-    ], className="mt-3", style={"paddingTop": "30px"}),
+    ], className="mt-3", style={"paddingTop": "10px"}),
 
     # Row 2: World Map + Ranking Column
     dbc.Row([
