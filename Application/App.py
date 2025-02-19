@@ -1,7 +1,7 @@
 from dash import dcc, html, callback, Dash, Input, Output
 import dash_bootstrap_components as dbc
 
-from Application.HelperClass import data_range
+from Application.HelperClass import data_range, data_citation, data_desc
 
 # Initialize Dash app with Bootstrap styling
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -31,7 +31,9 @@ app.layout = dbc.Container([
         dbc.Col(
             dbc.Card([
                 dbc.CardHeader("Description of Data"),
-                dbc.CardBody(html.P("This section will describe the selected data..."))
+                dbc.CardBody(html.P(children=data_desc["water"], id="data-desc")),
+                dbc.CardHeader("Citation"),
+                dbc.CardBody(html.P(children=data_citation["water"], id="data-citation"))
             ]),
             width=12
         )
@@ -93,8 +95,13 @@ def update_years(map_selected: str):
     return year, years
 
 
-def update_text():
-    pass
+@callback(
+    [Output(component_id="data-desc", component_property="children"),
+     Output(component_id="data-citation", component_property="children")],
+    Input(component_id="map-selection", component_property="value")
+)
+def update_text(map_selected: str):
+    return data_desc[map_selected], data_citation[map_selected]
 
 
 
