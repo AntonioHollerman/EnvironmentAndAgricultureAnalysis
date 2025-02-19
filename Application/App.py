@@ -39,7 +39,7 @@ app.layout = dbc.Container([
                         marks={year: str(year) for year in data_range[default_graph]}
                     )
                 ])
-            ], style={"height": "100%"}),
+            ], style={"height": "100%", "border": "none"}),  # Hide border
             width=12
         )
     ], className="mt-3", style={"paddingTop": "30px"}),
@@ -78,7 +78,7 @@ app.layout = dbc.Container([
                         }
                     )
                 ], style={"flex": "1", "display": "flex", "flexDirection": "column"})  # Ensures full stretch
-            ], style={"height": "100%", "display": "flex", "flexDirection": "column"}),
+            ], style={"height": "100%", "display": "flex", "flexDirection": "column"}),  # Keep border
             width=3,
             style={"display": "flex", "flexDirection": "column"}  # Matches height with the graph
         )
@@ -92,7 +92,7 @@ app.layout = dbc.Container([
                 dbc.CardBody(html.P(id="data-desc", children=data_desc[default_graph])),
                 dbc.CardHeader("Citation"),
                 dbc.CardBody(html.P(id="data-citation", children=data_citation[default_graph]))
-            ], style={"height": "100%"}),
+            ], style={"height": "100%", "border": "none"}),  # Hide border
             width=12
         )
     ], className="mt-3", style={"paddingBottom": "30px"})
