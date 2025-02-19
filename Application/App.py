@@ -9,77 +9,79 @@ default_year = data_range[default_graph][0]
 # Initialize Dash app with Bootstrap styling
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-# Layout
 app.layout = dbc.Container([
+    # Row 1: User Input (Dropdown & Slider)
     dbc.Row([
-        dbc.Col([
-            # Row 1: World Map
-            dbc.Row([
-                dbc.Col(dcc.Graph(id="choropleth-map", figure=get_viz(default_graph, default_year)), width=9),
-            ], className="mt-3"),
+        dbc.Col(
+            dbc.Card([
+                dbc.CardHeader("User Input"),
+                dbc.CardBody([
+                    html.Label("Select Map:", className="fw-bold"),
+                    dcc.Dropdown(
+                        id="map-selection",
+                        options=[
+                            {"label": "Water Security", "value": "water"},
+                            {"label": "Food Security", "value": "food"},
+                            {"label": "Electricity Security", "value": "electricity"}
+                        ],
+                        value=default_graph,
+                        clearable=False
+                    ),
+                    html.Br(),
+                    html.Label("Select Year:", className="fw-bold"),
+                    dcc.Slider(
+                        id="year-slider",
+                        step=None,
+                        value=default_year,
+                        marks={year: str(year) for year in data_range[default_graph]}
+                    )
+                ])
+            ], style={"height": "100%"}),
+            width=12
+        )
+    ], className="mt-3", style={"paddingTop": "30px"}),
 
-            # Row 2: Data Description
-            dbc.Row([
-                dbc.Col(
-                    dbc.Card([
-                        dbc.CardHeader("Description of Data"),
-                        dbc.CardBody(html.P(id="data-desc", children=data_desc[default_graph])),
-                        dbc.CardHeader("Citation"),
-                        dbc.CardBody(html.P(id="data-citation", children=data_citation[default_graph]))
-                    ]),
-                    width=12
-                )
-            ], className="mt-3"),
+    # Row 2: World Map + Ranking Column
+    dbc.Row([
+        # World Map (Left Side)
+        dbc.Col(
+            dcc.Graph(id="choropleth-map", figure=get_viz(default_graph, default_year)),
+            width=9
+        ),
 
-            # Row 3: User Input (Dropdown & Slider)
-            dbc.Row([
-                dbc.Col(
-                    dbc.Card([
-                        dbc.CardHeader("User Input"),
-                        dbc.CardBody([
-                            html.Label("Select Map:", className="fw-bold"),
-                            dcc.Dropdown(
-                                id="map-selection",
-                                options=[
-                                    {"label": "Water Security", "value": "water"},
-                                    {"label": "Food Security", "value": "food"},
-                                    {"label": "Electricity Security", "value": "electricity"}
-                                ],
-                                value=default_graph,
-                                clearable=False
-                            ),
-                            html.Br(),
-                            html.Label("Select Year:", className="fw-bold"),
-                            dcc.Slider(
-                                id="year-slider",
-                                step=None,
-                                value=default_year,
-                                marks={year: str(year) for year in data_range[default_graph]}
-                            )
-                        ])
-                    ]),
-                    width=12
-                )
-            ], className="mt-3")
-        ], width=9),
-
-        # Ranking Column (Fixed White Space Issue)
+        # Ranking Column (Right Side, only next to the map)
+        # Ranking Column (Right Side, only next to the map)
         dbc.Col(
             dbc.Card([
                 dbc.CardHeader("Ranking of Regions"),
                 dbc.CardBody([
                     html.Ul(id="ranking-list",
-                            style={"maxHeight": "calc(100vh - 200px)",  # Adjust height dynamically
-                                   "overflowY": "auto",
-                                   "margin": "0",
-                                   "padding": "0"})
-                ], style={"height": "100%", "display": "flex", "flexDirection": "column"}),  # Ensure full stretch
-            ], style={"height": "100%"}),  # Make sure card takes full height
+                            style={"maxHeight": "400px",  # Adjust height dynamically
+                                   "overflowY": "auto",  # Enables scrolling
+                                   "margin": "0", "padding": "0"})
+                ], style={"flex": "1", "display": "flex", "flexDirection": "column"})  # Ensures full stretch
+            ], style={"height": "100%", "display": "flex", "flexDirection": "column"}),
             width=3,
-            style={"display": "flex", "flexDirection": "column", "height": "100%"}  # Fill space dynamically
+            style={"display": "flex", "flexDirection": "column"}  # Matches height with the graph
         )
-    ])
+    ], className="mt-3", style={"display": "flex", "alignItems": "stretch"}),
+
+    # Row 3: Data Description (Below the map, spanning full width)
+    dbc.Row([
+        dbc.Col(
+            dbc.Card([
+                dbc.CardHeader("Description of Data"),
+                dbc.CardBody(html.P(id="data-desc", children=data_desc[default_graph])),
+                dbc.CardHeader("Citation"),
+                dbc.CardBody(html.P(id="data-citation", children=data_citation[default_graph]))
+            ], style={"height": "100%"}),
+            width=12
+        )
+    ], className="mt-3", style={"paddingBottom": "30px"})
+
 ], fluid=True)
+
+
 
 # Callbacks
 @app.callback(
