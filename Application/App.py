@@ -16,9 +16,9 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(
             dbc.Card([
-                dbc.CardHeader("User Input"),
                 dbc.CardBody([
                     html.Label("Select Map:", className="fw-bold"),
+                    html.Br(),
                     dcc.Dropdown(
                         id="map-selection",
                         options=[
@@ -27,7 +27,8 @@ app.layout = dbc.Container([
                             {"label": "Electricity Security", "value": "electricity"}
                         ],
                         value=default_graph,
-                        clearable=False
+                        clearable=False,
+                        style={"width": "auto", "minWidth": "150px", "display": "inline-block"}
                     ),
                     html.Br(),
                     html.Label("Select Year:", className="fw-bold"),
