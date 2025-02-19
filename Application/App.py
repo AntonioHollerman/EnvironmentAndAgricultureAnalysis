@@ -77,7 +77,7 @@ app.layout = dbc.Container([
 ], fluid=True)  # Full width layout
 
 
-@callback(Output(component_id="choropleth-map", component_property="figure"),
+@app.callback(Output(component_id="choropleth-map", component_property="figure"),
           [Input(component_id="map-selection", component_property="value"),
            Input(component_id="year-slider", component_property="value")])
 def update_viz(map_selected: str, year: int):
@@ -93,7 +93,7 @@ def update_ranks(map_selected: str, year: int):
     return [html.Li(item) for item in get_rank(map_selected, year)]
 
 
-@callback(
+@app.callback(
     [Output(component_id="year-slider", component_property="value"),
      Output(component_id="year-slider", component_property="marks")],
     Input(component_id="map-selection", component_property="value")
@@ -104,7 +104,7 @@ def update_years(map_selected: str):
     return year, years
 
 
-@callback(
+@app.callback(
     [Output(component_id="data-desc", component_property="children"),
      Output(component_id="data-citation", component_property="children")],
     Input(component_id="map-selection", component_property="value")
