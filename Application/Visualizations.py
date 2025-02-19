@@ -19,7 +19,7 @@ def energy_predictions_viz(year: int):
                         color="ej_value",
                         scope="world",
                         color_continuous_scale="Electric",
-                        title=f"Energy Security Predictions of {energy_prediction_years[-1]}",
+                        title=f"Energy Security Predictions of {year}",
                         range_color=(0, 100),
                         hover_name="id"
                         )
@@ -46,7 +46,7 @@ def food_security_viz(year: int, indicator: str = "Prevalence of Severe Food Ins
                         color="value",
                         scope="world",
                         color_continuous_scale="YlOrRd",
-                        title=f"Food Security of {food_security_years[-1]}",
+                        title=f"Food Security of {year}",
                         hover_name="country",
                         range_color=(0, 40)
                         )
@@ -69,7 +69,7 @@ def water_security_viz(year: int):
                         color="water_per_capita",
                         scope="world",
                         color_continuous_scale="blues",
-                        title=f"Water Security of {water_security_years[-1]}",
+                        title=f"Water Security of {year}",
                         range_color=(0, 100000),
                         hover_name="country"
                         )

@@ -60,38 +60,46 @@ class RegionRank:
 
 
 def get_viz(graph: str, year: int):
-    if graph == "water":
-        return water_security_viz(year)
-    elif graph == "food":
-        return food_security_viz(year)
-    elif graph == "electricity":
-        return energy_predictions_viz(year)
-    else:
-        return None
+    try:
+        if graph == "water":
+            return water_security_viz(year)
+        elif graph == "food":
+            return food_security_viz(year)
+        elif graph == "electricity":
+            return energy_predictions_viz(year)
+        else:
+            return None
+    except Exception as e:
+        print("Get Viz Failed: " + e.__str__())
+        return px.line()
 
 def get_rank(graph: str, year: int):
-    if graph == "water":
-        regions = []
-        df = get_water_security_df(year)
+    try:
+        if graph == "water":
+            regions = []
+            df = get_water_security_df(year)
 
-        for index, row in df.iterrows():
-            regions.append(RegionRank(row["country"], row["water_per_capita"]))
-        return sorted(regions)
+            for index, row in df.iterrows():
+                regions.append(RegionRank(row["country"], row["water_per_capita"]))
+            return sorted(regions, reverse=True)
 
-    if graph == "food":
-        regions = []
-        df = get_food_insecurity_df(year)
+        if graph == "food":
+            regions = []
+            df = get_food_insecurity_df(year)
 
-        for index, row in df.iterrows():
-            regions.append(RegionRank(row["country"], row["value"]))
-        return sorted(regions, reverse=True)
+            for index, row in df.iterrows():
+                regions.append(RegionRank(row["country"], row["value"]))
+            return sorted(regions)
 
-    if graph == "electricity":
-        regions = []
-        df = get_energy_predictions_df(year)
+        if graph == "electricity":
+            regions = []
+            df = get_energy_predictions_df(year)
 
-        for index, row in df.iterrows():
-            regions.append(RegionRank(row["id"], row["ej_value"]))
-        return sorted(regions)
+            for index, row in df.iterrows():
+                regions.append(RegionRank(row["id"], row["ej_value"]))
+            return sorted(regions, reverse=True)
 
-    return None
+        return None
+    except Exception as e:
+        print("Get Rank Failed: " + e.__str__())
+        return []

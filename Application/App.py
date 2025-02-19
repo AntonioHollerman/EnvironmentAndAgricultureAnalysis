@@ -2,6 +2,9 @@ from dash import dcc, html, callback, Dash, Input, Output
 import dash_bootstrap_components as dbc
 from HelperClass import *
 
+default_graph = "water"
+default_year = data_range[default_graph][0]
+
 # Initialize Dash app with Bootstrap styling
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -11,7 +14,7 @@ app.layout = dbc.Container([
     # Row 1: World Map & Ranking of Countries
     dbc.Row([
         # Choropleth Map (75% width)
-        dbc.Col(dcc.Graph(id="choropleth-map", figure=get_viz("water", data_range["water"][0])), width=9),
+        dbc.Col(dcc.Graph(id="choropleth-map", figure=get_viz(default_graph, default_year)), width=9),
 
         # Ranking of Countries (25% width, scrollable)
         dbc.Col(
@@ -19,8 +22,7 @@ app.layout = dbc.Container([
                 dbc.CardHeader("Ranking of Regions"),
                 dbc.CardBody([
                     html.Ul(id="ranking-list",
-                            style={"maxHeight": "400px", "overflowY": "scroll"},
-                            children=[html.Li(item) for item in get_rank("water", data_range["water"][0])])
+                            style={"maxHeight": "400px", "overflowY": "scroll"})
                 ])
             ]),
             width=3
@@ -32,9 +34,9 @@ app.layout = dbc.Container([
         dbc.Col(
             dbc.Card([
                 dbc.CardHeader("Description of Data"),
-                dbc.CardBody(html.P(children=data_desc["water"], id="data-desc")),
+                dbc.CardBody(html.P(children=data_desc[default_graph], id="data-desc")),
                 dbc.CardHeader("Citation"),
-                dbc.CardBody(html.P(children=data_citation["water"], id="data-citation"))
+                dbc.CardBody(html.P(children=data_citation[default_graph], id="data-citation"))
             ]),
             width=12
         )
@@ -65,8 +67,8 @@ app.layout = dbc.Container([
                     dcc.Slider(
                         id="year-slider",
                         step=None,  # Restrict to specific marks
-                        value=data_range["water"][0],  # Default year
-                        marks={year: str(year) for year in data_range["water"]}
+                        value=default_year,  # Default year
+                        marks={year: str(year) for year in data_range[default_graph]}
                     )
                 ])
             ]),
@@ -90,7 +92,7 @@ def update_viz(map_selected: str, year: int):
      Input(component_id="year-slider", component_property="value")]
 )
 def update_ranks(map_selected: str, year: int):
-    return [html.Li(item) for item in get_rank(map_selected, year)]
+    return [html.Li(item.region + ": " + item.value.__str__()) for item in get_rank(map_selected, year)]
 
 
 @app.callback(
@@ -113,7 +115,7 @@ def update_text(map_selected: str):
     return data_desc[map_selected], data_citation[map_selected]
 
 
-
 # Run app
 if __name__ == "__main__":
+    print("Starting Instance")
     app.run_server(debug=True)
