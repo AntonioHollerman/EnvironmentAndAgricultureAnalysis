@@ -1,4 +1,6 @@
 from dash import dcc, html, Dash, Input, Output, dash_table
+from dash.exceptions import PreventUpdate
+
 import dash_bootstrap_components as dbc
 from HelperClass import *
 
@@ -128,7 +130,17 @@ def update_ranks(map_selected, year):
     Input("map-selection", "value")
 )
 def update_years(map_selected):
-    years = {year: str(year) for year in data_range[map_selected]}
+    year_range = data_range[map_selected]
+    def display_year(i, _year):
+        if i % 5 == 0:
+            return str(_year)
+        else:
+            return ""
+
+    if map_selected == "water":
+        years = {year: display_year(index, year) for index, year in enumerate(year_range)}
+    else:
+        years = {year: str(year) for year in year_range}
     return data_range[map_selected][0], years
 
 @app.callback(
