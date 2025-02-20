@@ -2,7 +2,7 @@ from sqlite3 import connect  # Importing SQLite module to connect to the databas
 import pandas as pd  # Importing pandas for data manipulation and DataFrame creation
 
 # Establishing a global connection to the database
-global_conn = connect("EnvironmentData.db")
+global_conn = connect("..\\Data\\EnvironmentData.db")
 global_cur = global_conn.cursor()
 
 # Retrieving distinct years from the energy security predictions table
@@ -34,7 +34,7 @@ def get_2023_energy_security_df() -> pd.DataFrame:
                       - percent_no_electricity (percentage of population without electricity)
                       - country (country name)
     """
-    conn = connect("EnvironmentData.db")
+    conn = connect("..\\Data\\EnvironmentData.db")
     cur = conn.cursor()
 
     # Fetching energy security data
@@ -59,7 +59,7 @@ def get_energy_predictions_df(year: int) -> pd.DataFrame:
     Raises:
         Exception: If the given year is not available in the dataset.
     """
-    conn = connect("EnvironmentData.db")
+    conn = connect("..\\Data\\EnvironmentData.db")
     cur = conn.cursor()
 
     # Validate year input
@@ -92,7 +92,7 @@ def get_food_insecurity_df(year: int, indicator: str = "Prevalence of Severe Foo
     Raises:
         Exception: If the given year is not available in the dataset.
     """
-    conn = connect("EnvironmentData.db")
+    conn = connect("..\\Data\\EnvironmentData.db")
     cur = conn.cursor()
 
     # Validate year input
@@ -121,7 +121,7 @@ def get_water_security_df(year: int) -> pd.DataFrame:
                       - water_per_capita (amount of water per capita)
                       - country (country name)
     """
-    conn = connect("EnvironmentData.db")
+    conn = connect("..\\Data\\EnvironmentData.db")
     cur = conn.cursor()
 
     # Fetching water security data

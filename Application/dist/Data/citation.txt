@@ -1,0 +1,23 @@
+GitHub (Author: datasets, hrbrmstr, Ildar Sagdejev)
+    Countries GeoJson File: Used in creating visualizations of the world by countries
+    Accessed January 20, 2025. https://github.com/datasets/geo-countries, https://gist.github.com/hrbrmstr/91ea5cc9474286c72838,
+    https://github.com/codeforgermany/click_that_hood/blob/main/public/data/south-america.geojson
+    files: countries.json, continents.json
+
+The World Bank
+    World Food Security Outlook: populates "food_insecurity" table
+    Renewable internal freshwater resources per capita (cubic meters): Populates "water_security" table
+    Accessed January 20, 2025. https://microdata.worldbank.org/index.php/catalog/6103/get-microdata,
+    https://data.worldbank.org/indicator/ER.H2O.INTR.PC
+    files: Files found in "FoodSecurity" folder, water-data.csv
+
+Nase: EarthData Search
+    SDG Indicator 7.1.1: Access to Electricity, 2023 Release: populates "energy_security" table
+    Accessed January 20, 2025. https://search.earthdata.nasa.gov/search/granules?p=C2762284545-SEDAC&pg[0][v]=f&tl=1737384012!3!!&lat=-4.6713354681258465&long=-116.71875000000001&zoom=1
+    files: sdgi-7-1-1-access-electricity-2023-national.csv, sdgi-7-1-1-access-electricity-2023-subnational.csv
+
+IEA, SDG7 Database, IEA, Paris
+    populates: "energy_security_predictions" table
+    Accessed January 20, 2025. https://www.iea.org/data-and-statistics/data-product/sdg7-database, Licence: CC BY 4.0
+    files: WEO2024_AnnexA_Free_Dataset_Regions.csv, WEO2024_AnnexA_Free_Dataset_World.csv
+
