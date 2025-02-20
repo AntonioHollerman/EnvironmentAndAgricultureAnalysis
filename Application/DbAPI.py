@@ -2,7 +2,7 @@ from sqlite3 import connect  # Importing SQLite module to connect to the databas
 import pandas as pd  # Importing pandas for data manipulation and DataFrame creation
 
 # Establishing a global connection to the database
-global_conn = connect("..\\Data\\EnvironmentData.db")
+global_conn = connect("EnvironmentData.db")
 global_cur = global_conn.cursor()
 
 # Retrieving distinct years from the energy security predictions table
@@ -21,9 +21,6 @@ food_security_years = [row[0] for row in global_cur.fetchall()]
 global_cur.execute("SELECT DISTINCT indicator FROM food_insecurity")
 food_security_indicators = [row[0] for row in global_cur.fetchall()]
 
-# Closing the global cursor and database connection
-global_cur.close()
-global_conn.close()
 
 
 def get_2023_energy_security_df() -> pd.DataFrame:
@@ -37,16 +34,13 @@ def get_2023_energy_security_df() -> pd.DataFrame:
                       - percent_no_electricity (percentage of population without electricity)
                       - country (country name)
     """
-    conn = connect("..\\Data\\EnvironmentData.db")
+    conn = connect("EnvironmentData.db")
     cur = conn.cursor()
 
     # Fetching energy security data
     cur.execute("SELECT iso3c, percent_no_electricity, country FROM energy_security")
     data = [{"id": row[0], "percent_no_electricity": row[1], "country": row[2]} for row in cur.fetchall()]
 
-    # Closing the connection
-    conn.close()
-    cur.close()
     return pd.DataFrame(data)
 
 
@@ -65,7 +59,7 @@ def get_energy_predictions_df(year: int) -> pd.DataFrame:
     Raises:
         Exception: If the given year is not available in the dataset.
     """
-    conn = connect("..\\Data\\EnvironmentData.db")
+    conn = connect("EnvironmentData.db")
     cur = conn.cursor()
 
     # Validate year input
@@ -76,9 +70,6 @@ def get_energy_predictions_df(year: int) -> pd.DataFrame:
     cur.execute("SELECT continent, ej_value FROM energy_security_predictions WHERE year = ?", (year,))
     data = [{"id": row[0], "ej_value": row[1]} for row in cur.fetchall()]
 
-    # Closing the connection
-    conn.close()
-    cur.close()
     return pd.DataFrame(data)
 
 
@@ -101,7 +92,7 @@ def get_food_insecurity_df(year: int, indicator: str = "Prevalence of Severe Foo
     Raises:
         Exception: If the given year is not available in the dataset.
     """
-    conn = connect("..\\Data\\EnvironmentData.db")
+    conn = connect("EnvironmentData.db")
     cur = conn.cursor()
 
     # Validate year input
@@ -113,9 +104,7 @@ def get_food_insecurity_df(year: int, indicator: str = "Prevalence of Severe Foo
                 (year, indicator))
     data = [{"year": row[0], "id": row[1], "country": row[2], "value": row[3]} for row in cur.fetchall()]
 
-    # Closing the connection
-    conn.close()
-    cur.close()
+
     return pd.DataFrame(data)
 
 
@@ -132,16 +121,14 @@ def get_water_security_df(year: int) -> pd.DataFrame:
                       - water_per_capita (amount of water per capita)
                       - country (country name)
     """
-    conn = connect("..\\Data\\EnvironmentData.db")
+    conn = connect("EnvironmentData.db")
     cur = conn.cursor()
 
     # Fetching water security data
     cur.execute("SELECT iso3c, water_per_capita, country FROM water_security WHERE year = ?", (year,))
     data = [{"id": row[0], "water_per_capita": row[1], "country": row[2]} for row in cur.fetchall()]
 
-    # Closing the connection
-    conn.close()
-    cur.close()
+
     return pd.DataFrame(data)
 
 
